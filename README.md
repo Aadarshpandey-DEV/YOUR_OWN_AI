@@ -4,13 +4,13 @@ A repo for  people have gpus and want to make money using it, BY making ai model
 
 Required Notice: Copyright 2026 [Aadarsh Pandey]
 
-##How to use it
+## How to use it
 
 Upload the client’s files as a private Kaggle Dataset and set DATA_DIR, ORG, CLIENT and MODEL_SIZE in the first cell.
 Set the accelerator to T4 x2, turn Internet on, and run the cells in order.
 Download <client>_package.zip from the Output tab, then run the wipe cell.
 
-##What the cells do
+## What the cells do
 
 Parse: Reads PDF, Word, Excel, CSV, PowerPoint, Markdown, text and images. Scanned PDFs and images go through OCR.
 
@@ -27,7 +27,7 @@ Chat: Starts a password-protected Gradio link that shuts itself down after SESSI
 
 Wipe: Set CONFIRM_WIPE = True and run the last cell to delete the working folder.
 
-##Things to watch
+## Things to watch
 
 Small datasets: With fewer than 60 training examples the notebook skips fine-tuning and uses RAG only. Set MODE = "rag_only" for a fast first demo.
 
