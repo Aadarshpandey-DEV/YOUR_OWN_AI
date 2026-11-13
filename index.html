@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Request a private AI assistant for your business</title>
+<meta name="description" content="Tell us about your business and we will build a small AI model trained on your own documents.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=Figtree:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#edf2f0; --surface:#ffffff; --ink:#14262b; --muted:#4d6166;
+  --line:#c9d6d3; --accent:#0f5e63; --accent-ink:#ffffff; --mark:#e8a317;
+  --err:#a3271c; --ok:#14683a;
+  --head:'Bricolage Grotesque','Segoe UI',system-ui,sans-serif;
+  --body:'Figtree','Segoe UI',system-ui,sans-serif;
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --bg:#0f1b1e; --surface:#162529; --ink:#e6f0ee; --muted:#9db3b0;
+    --line:#2c4247; --accent:#5fc3c0; --accent-ink:#06211f; --mark:#f0b33a;
+    --err:#ff8d80; --ok:#7ddba0; color-scheme:dark;
+  }
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 1.0625rem/1.6 var(--body);-webkit-font-smoothing:antialiased}
+.wrap{max-width:1080px;margin:0 auto;padding:clamp(1.5rem,5vw,4rem) clamp(1rem,4vw,2rem);display:grid;gap:clamp(2rem,5vw,4.5rem);grid-template-columns:1fr}
+@media (min-width:900px){.wrap{grid-template-columns:minmax(0,5fr) minmax(0,6fr);align-items:start}.intro{position:sticky;top:3rem}}
+
+h1{font:700 clamp(2.1rem,5vw,3.3rem)/1.05 var(--head);letter-spacing:-.02em;margin:0 0 1.25rem}
+h1 span{box-shadow:inset 0 -.32em 0 color-mix(in srgb,var(--mark) 55%,transparent)}
+.lede{color:var(--muted);max-width:34rem;margin:0 0 2.25rem}
+h2{font:600 1.1rem/1.3 var(--head);margin:0 0 1rem}
+.steps{list-style:none;margin:0 0 2rem;padding:0;counter-reset:s;display:grid;gap:1rem}
+.steps li{counter-increment:s;display:grid;grid-template-columns:2rem 1fr;gap:.75rem}
+.steps li::before{content:counter(s);display:grid;place-items:center;width:2rem;height:2rem;border:1.5px solid var(--accent);border-radius:50%;font:600 .9rem var(--head);color:var(--accent)}
+.steps b{display:block;font-weight:600}
+.steps span{color:var(--muted);font-size:.98rem}
+.promise{border-left:3px solid var(--mark);padding:.1rem 0 .1rem 1rem;color:var(--muted);font-size:.98rem;max-width:34rem}
+
+form{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:clamp(1.25rem,3.5vw,2.25rem);display:grid;gap:1.25rem}
+.row{display:grid;gap:1.25rem}
+@media (min-width:600px){.row.two{grid-template-columns:1fr 1fr}}
+label,legend{font-weight:600;font-size:.97rem;display:block;margin-bottom:.4rem;padding:0}
+.hint{font-weight:400;color:var(--muted);font-size:.9rem}
+input[type=text],input[type=email],select,textarea{
+  width:100%;font:inherit;color:var(--ink);background:var(--bg);
+  border:1.5px solid var(--line);border-radius:8px;padding:.7rem .85rem;min-height:2.9rem}
+textarea{min-height:8.5rem;resize:vertical}
+input:focus-visible,select:focus-visible,textarea:focus-visible,button:focus-visible,.size input:focus-visible+span{outline:3px solid var(--mark);outline-offset:2px}
+fieldset{border:0;margin:0;padding:0;min-width:0}
+.sizes{display:grid;gap:.6rem}
+@media (min-width:600px){.sizes{grid-template-columns:1fr 1fr}}
+.size{position:relative;display:block;margin:0}
+.size input{position:absolute;opacity:0;inset:0;cursor:pointer;width:100%;height:100%;margin:0}
+.size span{display:block;border:1.5px solid var(--line);border-radius:10px;padding:.7rem .85rem;background:var(--bg);height:100%}
+.size b{display:block;font-weight:600}
+.size small{color:var(--muted);font-size:.88rem;line-height:1.4;display:block}
+.size input:checked+span{border-color:var(--accent);background:color-mix(in srgb,var(--accent) 10%,var(--surface));box-shadow:inset 0 0 0 1px var(--accent)}
+.check{display:grid;grid-template-columns:1.25rem 1fr;gap:.7rem;align-items:start;font-weight:400;font-size:.93rem;color:var(--muted)}
+.check input{width:1.2rem;height:1.2rem;margin:.2rem 0 0;accent-color:var(--accent)}
+button{font:600 1.05rem var(--body);background:var(--accent);color:var(--accent-ink);border:0;border-radius:10px;padding:.95rem 1.5rem;cursor:pointer;min-height:3rem}
+button:hover{filter:brightness(1.08)}
+button[disabled]{opacity:.6;cursor:progress}
+.hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
+[aria-invalid=true]{border-color:var(--err)!important}
+.msg{margin:0;min-height:1.4em;font-weight:500}
+.msg.err{color:var(--err)}
+.done{text-align:left}
+.done h2{font:700 1.6rem/1.2 var(--head);margin:0 0 .6rem}
+.done p{color:var(--muted);margin:0 0 .5rem}
+.done b{color:var(--ink)}
+.hidden{display:none}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+<main class="wrap">
+
+  <section class="intro">
+    <h1>An AI assistant that knows <span>your business</span></h1>
+    <p class="lede">We build a small AI model from your own documents, such as price lists, policies, manuals, forms and spreadsheets, so your team can ask questions and get answers in plain language.</p>
+
+    <h2>What happens after you send this</h2>
+    <ol class="steps">
+      <li><div><b>You tell us what you need</b><span>The form takes about two minutes.</span></div></li>
+      <li><div><b>We reply by email</b><span>We aim to answer within two working days with questions and a plan.</span></div></li>
+      <li><div><b>We agree how your files are handled</b><span>You decide how they reach us and when we delete them.</span></div></li>
+      <li><div><b>We deliver a working assistant</b><span>You try it with real questions before anything is final.</span></div></li>
+    </ol>
+
+    <p class="promise">Please don’t send documents through this form. We will arrange a safe way to share files after we talk.</p>
+  </section>
+
+  <section aria-live="polite">
+    <form id="f" novalidate>
+      <input type="hidden" name="subject" value="New AI model request">
+      <input type="hidden" name="from_name" value="AI request website">
+      <input type="checkbox" name="botcheck" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
+
+      <div class="row two">
+        <div>
+          <label for="name">Your name</label>
+          <input id="name" name="name" type="text" autocomplete="name" required>
+        </div>
+        <div>
+          <label for="email">Email</label>
+          <input id="email" name="email" type="email" autocomplete="email" required>
+        </div>
+      </div>
+
+      <div class="row two">
+        <div>
+          <label for="org">Organization name</label>
+          <input id="org" name="organization" type="text" autocomplete="organization" required>
+        </div>
+        <div>
+          <label for="type">Type of organization</label>
+          <select id="type" name="organization_type" required>
+            <option value="">Choose one</option>
+            <option>Clinic or hospital</option>
+            <option>Law or accounting firm</option>
+            <option>School or college</option>
+            <option>Shop or retail</option>
+            <option>Restaurant or hotel</option>
+            <option>Manufacturing or trade</option>
+            <option>Real estate</option>
+            <option>Software or services company</option>
+            <option>Other</option>
+          </select>
+        </div>
+      </div>
+
+      <fieldset>
+        <legend>Model size</legend>
+        <div class="sizes">
+          <label class="size"><input type="radio" name="model_size" value="Small (1-2B)"><span><b>Small</b><small>Quick and light. Runs on an ordinary office PC.</small></span></label>
+          <label class="size"><input type="radio" name="model_size" value="Medium (3-4B)"><span><b>Medium</b><small>Better answers. Needs a good PC or a small server.</small></span></label>
+          <label class="size"><input type="radio" name="model_size" value="Large (7-8B)"><span><b>Large</b><small>Best quality. Needs a computer with a GPU.</small></span></label>
+          <label class="size"><input type="radio" name="model_size" value="Not sure" checked><span><b>Not sure</b><small>We will suggest a size after we talk.</small></span></label>
+        </div>
+      </fieldset>
+
+      <div>
+        <label for="msg">What do you want it to do? <span class="hint">(optional)</span></label>
+        <textarea id="msg" name="message" maxlength="2000" placeholder="For example: answer customer questions about prices and timings, or help staff find the right policy quickly."></textarea>
+      </div>
+
+      <label class="check"><input type="checkbox" id="consent" required><span>I agree that you may use these details to contact me about this request.</span></label>
+
+      <p class="msg" id="msg-out" role="status"></p>
+      <button type="submit" id="go">Send request</button>
+    </form>
+
+    <div id="ok" class="done hidden" tabindex="-1">
+      <h2>Request received</h2>
+      <p>Thank you, <b id="ok-name"></b>. We will email you at <b id="ok-mail"></b> within two working days.</p>
+      <p>If you don’t see our reply, check your spam folder.</p>
+    </div>
+  </section>
+
+</main>
+
+<script>
+// 1) Get a free access key at https://web3forms.com (enter the email where you want requests)
+// 2) Paste it below
+const ACCESS_KEY = "YOUR_WEB3FORMS_ACCESS_KEY";
+
+const f = document.getElementById('f');
+const out = document.getElementById('msg-out');
+const btn = document.getElementById('go');
+
+function fail(text, el){
+  out.textContent = text; out.className = 'msg err';
+  if(el){ el.setAttribute('aria-invalid','true'); el.focus(); }
+}
+
+f.addEventListener('input', e => e.target.removeAttribute('aria-invalid'));
+
+f.addEventListener('submit', async e => {
+  e.preventDefault();
+  out.textContent = ''; out.className = 'msg';
+  const d = new FormData(f);
+
+  if(!d.get('name').trim()) return fail('Please enter your name.', f.name);
+  if(!/^\S+@\S+\.\S+$/.test(d.get('email').trim())) return fail('Please enter a valid email address.', f.email);
+  if(!d.get('organization').trim()) return fail('Please enter your organization name.', f.organization);
+  if(!d.get('organization_type')) return fail('Please choose your type of organization.', f.organization_type);
+  if(!document.getElementById('consent').checked) return fail('Please tick the box so we can contact you.', document.getElementById('consent'));
+  if(ACCESS_KEY.startsWith('YOUR_')) return fail('This form is not connected yet. Add your access key in the page code.');
+
+  d.append('access_key', ACCESS_KEY);
+  btn.disabled = true; btn.textContent = 'Sending\u2026';
+
+  try{
+    const r = await fetch('https://api.web3forms.com/submit', {
+      method:'POST', headers:{'Accept':'application/json'}, body:d
+    });
+    const j = await r.json();
+    if(!r.ok || !j.success) throw new Error(j.message || 'failed');
+    document.getElementById('ok-name').textContent = d.get('name').trim();
+    document.getElementById('ok-mail').textContent = d.get('email').trim();
+    f.classList.add('hidden');
+    const ok = document.getElementById('ok');
+    ok.classList.remove('hidden'); ok.focus();
+  }catch(err){
+    fail('Your request did not go through. Please try again in a minute.');
+    btn.disabled = false; btn.textContent = 'Send request';
+  }
+});
+</script>
+</body>
+</html>
